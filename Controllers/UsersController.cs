@@ -27,7 +27,7 @@ namespace RestAPI.Controllers
         [Route("{id}")]
         public IActionResult GetUser(Guid id)
         {
-            var user = userRepository.Get(id);
+            var user = userRepository.GetUserById(id);
             if (user == null)
             {
                 var result = new JsonResult(null);
@@ -50,9 +50,25 @@ namespace RestAPI.Controllers
                 return Conflict();
             }
 
-            userRepository.Add(u);
+            userRepository.AddUser(u);
 
             return Ok(u);
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult UpdateUser([FromBody] User updates, Guid id)
+        {
+            var user = userRepository.GetUserById(id);
+            
+            if (user != null)
+            {
+                var updatedUser = userRepository.UpdateUser(user, updates);
+                return Ok(updatedUser);
+            }
+
+            return NotFound();
+
         }
 
         [HttpDelete]

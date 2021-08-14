@@ -19,14 +19,32 @@ namespace RestAPI
             };
         }
 
-        public void Add(User user)
+        public void AddUser(User user)
         {
             Users.Add(new User(user.Email, user.Password));
         }
 
-        public User Get(Guid id)
+        public User GetUserById(Guid id)
         {
             return Users.FirstOrDefault(u => u.Id == id);
+        }
+
+        public User UpdateUser(User user, User update)
+        {
+            if (update.Email != null)
+            {
+                user.Email = update.Email;
+            }
+
+            if (update.Password != null)
+            {
+                user.Password = update.Password;
+            }
+
+            Remove(user.Id);
+            Users.Add(user);
+
+            return user;
         }
 
         public bool Exists(Guid id)
