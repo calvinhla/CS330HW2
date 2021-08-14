@@ -13,9 +13,11 @@ namespace RestAPI
         public UsersRepository()
         {
             var user = new User("test@gmail.com", "abc123");
+            var bytes = new Byte[16];
+            user.Id = new Guid(bytes);
             Users = new List<User>()
             {
-                new User("test@gmail.com", "abc123")                
+                user               
             };
         }
 
